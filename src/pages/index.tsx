@@ -22,8 +22,6 @@ const codeLines = [
   "};",
 ];
 
-const consoleLine = 'console.log("Welcome to Tejas\'s Portfolio");';
-
 function highlight(line: string) {
   // Simple regex-based highlighting for demo
   let highlighted = line
