@@ -36,11 +36,27 @@ function highlight(line: string) {
     .replace(/([\[\]\{\}\(\)\,])/g, `<span class='text-gray-400'>$1</span>`)
     .replace(/&lt;.*?&gt;/g, (match) => match); // don't highlight HTML tags
 
-  // Remove unwanted span from 'const tejas ='
-  highlighted = highlighted.replace(
-    /^<span class='text-purple-400'>const<\/span> tejas =/,
-    "const tejas ="
-  );
+  // Remove purple span from 'const tejas = {' and 'const tejas ='
+  if (
+    highlighted.startsWith(
+      "<span class='text-purple-400'>const</span> tejas = <span class='text-gray-400'>{</span>"
+    )
+  ) {
+    highlighted =
+      'const tejas = <span class="text-gray-400">{</span>' +
+      highlighted.slice(
+        "<span class='text-purple-400'>const</span> tejas = <span class='text-gray-400'>{</span>"
+          .length
+      );
+  } else if (
+    highlighted.startsWith("<span class='text-purple-400'>const</span> tejas =")
+  ) {
+    highlighted =
+      "const tejas =" +
+      highlighted.slice(
+        "<span class='text-purple-400'>const</span> tejas =".length
+      );
+  }
   return highlighted;
 }
 
