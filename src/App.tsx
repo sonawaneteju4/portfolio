@@ -1,7 +1,6 @@
 import "./App.css";
 import CodeEditorLayout from "./component/layout/CodeEditorLayout";
 import { ThemeProvider } from "./context/ThemeContext";
-import Button from "./component/ui/Button";
 
 function App() {
   return (

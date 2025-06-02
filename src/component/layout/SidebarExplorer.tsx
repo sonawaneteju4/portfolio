@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { VscFile, VscFolder, VscFolderOpened } from "react-icons/vsc";
 import { useTheme } from "../../context/ThemeContext";
 
@@ -10,7 +10,7 @@ const SidebarExplorer = () => {
   const [showDropdown, setShowDropdown] = useState(false);
 
   // Close dropdown on theme change
-  const handleThemeChange = (newTheme: "light" | "dark" | "system") => {
+  const handleThemeChange = () => {
     if (toggleTheme) {
       toggleTheme();
     }
@@ -100,7 +100,7 @@ const SidebarExplorer = () => {
                     ? "font-bold text-blue-600 dark:text-blue-400"
                     : ""
                 }`}
-                onClick={() => handleThemeChange("light")}
+                onClick={handleThemeChange}
               >
                 Light
               </button>
@@ -110,7 +110,7 @@ const SidebarExplorer = () => {
                     ? "font-bold text-blue-600 dark:text-blue-400"
                     : ""
                 }`}
-                onClick={() => handleThemeChange("dark")}
+                onClick={handleThemeChange}
               >
                 Dark
               </button>
