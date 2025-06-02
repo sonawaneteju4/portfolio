@@ -1,12 +1,13 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 
-// Theme type
-export type Theme = "light" | "dark";
+// --- update ThemeContext to support setTheme ---
+export type Theme = "light" | "dark" | "system";
 
 // Context shape
 interface ThemeContextProps {
   theme: Theme;
+  setTheme: (theme: Theme) => void;
   toggleTheme: () => void;
 }
 
@@ -22,15 +23,25 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     document.documentElement.classList.remove("light", "dark");
-    document.documentElement.classList.add(theme);
+    if (theme === "system") {
+      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
+        .matches
+        ? "dark"
+        : "light";
+      document.documentElement.classList.add(systemTheme);
+    } else {
+      document.documentElement.classList.add(theme);
+    }
     localStorage.setItem("theme", theme);
   }, [theme]);
 
   const toggleTheme = () =>
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+    setTheme((prev) =>
+      prev === "light" ? "dark" : prev === "dark" ? "system" : "light"
+    );
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );
